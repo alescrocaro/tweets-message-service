@@ -1,9 +1,22 @@
 # tweets-message-service
-You must unzip tweets.csv
-
 ## How to run
 ### RabbitMQ
-First you will need to [download and install](https://www.rabbitmq.com/download.html) it.
+First you will need to [download and install](https://www.rabbitmq.com/download.html) it.\
+Here is an example:
+```bash
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install erlang # dependency package
+sudo apt-get install rabbitmq-server
+sudo systemctl enable rabbitmq-server
+sudo systemctl start rabbitmq-server
+sudo systemctl status rabbitmq-server
+```
+
+Then you can unzip the used database
+```bash
+unzip tweets.csv.zip
+```
 
 
 
