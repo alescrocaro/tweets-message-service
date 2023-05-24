@@ -7,8 +7,11 @@ class Collector:
     def __init__(self):
         self.connection = pika.BlockingConnection(pika.ConnectionParameters(host="localhost"))
         self.channel = self.connection.channel()
-
         self.tweets = []
+        self.preprocess_data()
+
+
+    def preprocess_data(self):
         with open("./tweets.csv", "r") as file:
             reader = csv.reader(file)
             
@@ -23,8 +26,6 @@ class Collector:
         self.channel.queue_declare(queue="tweets")
         stringified_tweets = json.dumps(self.tweets)
         self.channel.basic_publish(exchange="", routing_key="tweets", body=stringified_tweets)
-
-
 
         # self.connection.close()
 
