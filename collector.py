@@ -1,9 +1,15 @@
 import csv
+import json
+import pika
+import sys
 
 class Collector:
     def __init__(self):
+        self.connection = pika.BlockingConnection(pika.ConnectionParameters(host="localhost"))
+        self.channel = self.connection.channel()
+
         self.tweets = []
-        with open('./tweets.csv', 'r') as file:
+        with open("./tweets.csv", "r") as file:
             reader = csv.reader(file)
             
             # Skip header row
@@ -13,11 +19,16 @@ class Collector:
                 self.tweets.append({ "topic": tweet[6][1:].lower(), "text": tweet[13], "user_name": tweet[56] })
 
 
+    def handle_queue(self):
+        self.channel.queue_declare(queue="tweets")
+        stringified_tweets = json.dumps(self.tweets)
+        self.channel.basic_publish(exchange="", routing_key="tweets", body=stringified_tweets)
 
-# if __name__ == '__main__':
-#     collector = Collector()
-#     for tweet in collector.tweets:
-        # if ('realmadrid' in tweet["topic"].lower()):
-            # print(f"tweet by {tweet["user_name"]}: ")
-            # print(tweet)
-            # print()
+
+
+        # self.connection.close()
+
+
+if __name__ == "__main__":
+    collector = Collector()
+    collector.handle_queue()
