@@ -14,10 +14,10 @@ class Collector:
 
 
 
-if __name__ == '__main__':
-    collector = Collector()
-    for tweet in collector.tweets:
-        if ('realmadrid' in tweet["topic"].lower()):
+# if __name__ == '__main__':
+#     collector = Collector()
+#     for tweet in collector.tweets:
+        # if ('realmadrid' in tweet["topic"].lower()):
             # print(f"tweet by {tweet["user_name"]}: ")
-            print(tweet)
-            print()
+            # print(tweet)
+            # print()
