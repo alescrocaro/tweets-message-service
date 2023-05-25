@@ -18,6 +18,16 @@ Then you can unzip the used database
 unzip tweets.csv.zip
 ```
 
+To list all existing queues:
+```bash
+sudo rabbitmqctl list_queues
+```
+
+To clear all existing queues (BE CAREFUL!):
+```bash
+sudo rabbitmqctl list_queues | awk '{print $1}' | xargs -I % sudo rabbitmqctl delete_queue %
+```
+
 
 
 ## Libraries
