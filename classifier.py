@@ -1,3 +1,17 @@
+"""
+    Consume all tweets from tweets queue and insert into a specific topic queue, one by time. There is the 
+    following topics: "barcelona", "realmadrid", "bayern", "liverpool", "ucl and "ajax"; they are defined
+    below in this file, if you want to add a new topic just do it following the pattern used (declare queue,
+    declare constant with all topics you want to include in it, and add its verification in callback - pay 
+    attention to the names!)
+
+    Author: Alexandre Aparecido Scrocaro Junior, Pedro Klayn
+    Dates: 
+        start: 24/05/2023
+        more info: https://github.com/alescrocaro/tweets-message-service
+
+"""
+
 import pika
 import json
 from time import sleep
@@ -20,6 +34,15 @@ ajax_topics = ["ajax"]
 
 
 def callback(ch, method, properties, body):
+    """publish received tweet in a specific queue according to its topic (if exists) and remove consumed 
+    tweet from tweets queue.
+
+    Args:
+        ch (BlockingChannel): channel used for publishing in topic queue
+        method (spec.Basic.Deliver): used for removing read tweet from tweets queue
+        properties (_): _
+        body (string | bytes): stringified tweet dict
+    """
     print("loading...")
     tweet = json.loads(body)
 
@@ -62,8 +85,8 @@ def callback(ch, method, properties, body):
     except Exception as e:
         print(f"Error while publishing tweets: {e}")
 
-print(f"Consuming messages from queue")
 
+print(f"Consuming messages from queue")
 # Read only 1 tweet 
 channel.basic_qos(prefetch_count=1) 
 channel.basic_consume(queue="tweets", on_message_callback=callback, auto_ack=False)

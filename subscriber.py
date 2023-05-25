@@ -1,3 +1,13 @@
+"""
+    Consume tweets from topics the user wants and create a timeline.
+
+    Author: Alexandre Aparecido Scrocaro Junior, Pedro Klayn
+    Dates: 
+        start: 24/05/2023
+        more info: https://github.com/alescrocaro/tweets-message-service
+
+"""
+
 import pika
 import json
 import sys
@@ -6,7 +16,15 @@ from random import choice
 
 print("> Timeline")
 
-def callback(ch, method, properties, body):
+def callback(_, method, properties, body):
+    """Function to be executed when subscriber receives a tweet. It display the tweet in timeline.
+
+    Args:
+        ch (_): _
+        method (_): _
+        properties (_): _
+        body (string | bytes): stringified tweet
+    """
     tweet = json.loads(body)
 
 
@@ -22,6 +40,9 @@ def callback(ch, method, properties, body):
 
 
 
+"""
+    Get one tweet from a random queue the user is subscribed, to simulate a timeline
+"""
 connection = pika.BlockingConnection(pika.ConnectionParameters(host="localhost"))
 channel = connection.channel()
 result = channel.queue_declare(queue='', exclusive=True)
