@@ -1,4 +1,4 @@
-# tweets-message-service
+# [tweets-message-service](https://github.com/alescrocaro/tweets-message-service)
 
 Project developed for distributed systems classes. The main idea is to collect tweets, insert into a queue, classify into topics and create a queue for each topic, then an client (subscriber) can watch any topic he wants.
 
