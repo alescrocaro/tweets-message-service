@@ -28,6 +28,23 @@ To clear all existing queues (BE CAREFUL!):
 sudo rabbitmqctl list_queues | awk '{print $1}' | xargs -I % sudo rabbitmqctl delete_queue %
 ```
 
+To consume all tweets from database:
+```bash
+python collector.py # this should get all tweets and insert into a single queue
+```
+
+To split tweets into topics:
+```bash
+python classifier.py
+```
+
+To start a client:
+```bash
+python subscriber.py barcelona ajax bayern
+python subscriber.py realmadrid
+```
+
+This is the common flux, but you should be able to run it in any order.
 
 
 ## Libraries
